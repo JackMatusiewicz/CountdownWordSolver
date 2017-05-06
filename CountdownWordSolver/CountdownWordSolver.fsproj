@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Permutation.fs" />
     <Compile Include="Trie.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
