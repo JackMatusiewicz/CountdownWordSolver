@@ -1,5 +1,7 @@
 module Trie
 
+open System
+
 type WordAtNode = WordEndsHere | NoWord
 
 type TrieNode = | Node of Map<char, TrieNode> * WordAtNode
@@ -51,3 +53,24 @@ let contains (word : string) (trie : TrieNode) =
             | Some node -> find node tl
             | None -> false
     find trie chars
+
+let findAllWords (trie : TrieNode) (characters : char list) : (Set<string>) =
+
+    let rec find (currentNode : TrieNode) (processedChars : char list)
+                    (toVisit : char list) (acc : Set<string>) =
+        match toVisit with
+        | [] -> acc
+        | hd :: tl ->
+            let updatedProcessedChars = hd :: processedChars
+            let (Node (map, state)) = currentNode
+            if Map.containsKey hd map then
+                let (Node (resultMap, newState)) as nextNode = Map.find hd map
+                if newState = WordEndsHere then
+                    let newWord = updatedProcessedChars
+                                    |> List.rev
+                                    |> Array.ofList
+                                    |> String
+                    find nextNode updatedProcessedChars tl (Set.add newWord acc)
+                else find nextNode updatedProcessedChars tl acc
+            else acc
+    find trie [] characters Set.empty
