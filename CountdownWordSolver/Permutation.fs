@@ -30,12 +30,12 @@ let permutations (input : 'a list) : ('a list list) =
 let addInAllPositions (element : 'a) (data : 'a list) =
     let rec addValueInAllPositions (element : 'a)
         frontOfList backOfList (newLists : 'a list list) =
-            match backOfList with
-            | [] ->
-                (frontOfList @ [element]) :: newLists
-            | hd::tl as l ->
-                let updated = frontOfList @ [element] @ l
-                addValueInAllPositions element (frontOfList @ [hd]) tl (updated::newLists)
+        match backOfList with
+        | [] ->
+            (frontOfList @ [element]) :: newLists
+        | hd::tl as l ->
+            let updated = frontOfList @ [element] @ l
+            addValueInAllPositions element (frontOfList @ [hd]) tl (updated::newLists)
     addValueInAllPositions element [] data []
 
 let rec perms (data : 'a list) =
