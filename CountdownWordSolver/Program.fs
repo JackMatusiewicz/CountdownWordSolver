@@ -18,12 +18,13 @@ let getValidWordsFromFile = getLinesFromFile >> filterInvalidWords
 [<EntryPoint>]
 let main argv =
     let trie = "/usr/share/dict/words" |> getValidWordsFromFile |> Trie.buildTrie
-    let foundWords = "aiubghopj"
+    let foundWords = "fnioeihkp"
                         |> List.ofSeq
                         |> Permutation.permutations
                         |> List.map (Trie.findAllWords trie)
                         |> List.filter (fun x -> Set.isEmpty x = false)
                         |> List.fold (fun acc ele -> Set.union acc ele) Set.empty
+                        |> Set.toList |> List.sortBy (fun x -> x.Length)
     printfn "%A" foundWords
 
 

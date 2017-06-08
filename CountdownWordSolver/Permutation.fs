@@ -8,15 +8,16 @@ let permutations (input : 'a list) : ('a list list) =
             let newPerms = addElementToPreviousLists hd acc []
             findAllPermutations tl newPerms
 
-    and addElementToPreviousLists (element : 'a) lists updatedLists =
+    and addElementToPreviousLists (element : 'a) lists listsWithElement =
         match lists with
         | hd::tl ->
             let updated = addElementToAllPositionsInList element [] hd []
-            addElementToPreviousLists element tl (updated @ updatedLists)
-        | [] -> updatedLists
+            addElementToPreviousLists element tl (updated @ listsWithElement)
+        | [] -> listsWithElement
 
-    and addElementToAllPositionsInList (element : 'a) frontOfList backofList (newLists : 'a list list) =
-        match backofList with
+    and addElementToAllPositionsInList (element : 'a)
+        frontOfList backOfList (newLists : 'a list list) =
+        match backOfList with
         | [] ->
             (frontOfList @ [element]) :: newLists
         | hd::tl ->
@@ -27,8 +28,9 @@ let permutations (input : 'a list) : ('a list list) =
 
 //A more concise way to do it - but much slower.
 let addInAllPositions (element : 'a) (data : 'a list) =
-    let rec addValueInAllPositions (element : 'a) frontOfList backofList (newLists : 'a list list) =
-            match backofList with
+    let rec addValueInAllPositions (element : 'a)
+        frontOfList backOfList (newLists : 'a list list) =
+            match backOfList with
             | [] ->
                 (frontOfList @ [element]) :: newLists
             | hd::tl as l ->
