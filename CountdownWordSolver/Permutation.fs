@@ -3,7 +3,7 @@ namespace Countdown
 [<RequireQualifiedAccess>]
 module Permutation =
 
-    let permutations (input : 'a list) : ('a list list) =
+    let findAll (input : 'a list) : ('a list list) =
         let rec findAllPermutations (elementsToAdd : 'a list) (acc : 'a list list) =
             match elementsToAdd with
             | [] -> acc

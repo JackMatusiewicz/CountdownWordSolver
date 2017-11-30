@@ -23,7 +23,7 @@ module Program =
         let foundWords =
             "fnioeihkp"
             |> List.ofSeq
-            |> Permutation.permutations
+            |> Permutation.findAll
             |> List.map (Trie.findAllWords trie)
             |> List.filter (fun x -> Set.isEmpty x = false)
             |> List.fold (fun acc ele -> Set.union acc ele) Set.empty
