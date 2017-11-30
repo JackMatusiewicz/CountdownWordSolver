@@ -66,10 +66,11 @@ let findAllWords (trie : TrieNode) (characters : char list) : (Set<string>) =
             if Map.containsKey hd map then
                 let (Node (resultMap, newState)) as nextNode = Map.find hd map
                 if newState = WordEndsHere then
-                    let newWord = updatedProcessedChars
-                                    |> List.rev
-                                    |> Array.ofList
-                                    |> String
+                    let newWord =
+                        updatedProcessedChars
+                        |> List.rev
+                        |> Array.ofList
+                        |> String
                     find nextNode updatedProcessedChars tl (Set.add newWord acc)
                 else find nextNode updatedProcessedChars tl acc
             else acc
