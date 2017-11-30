@@ -1,27 +1,30 @@
-module Permutation
+namespace Countdown
 
-let permutations (input : 'a list) : ('a list list) =
-    let rec findAllPermutations (elementsToAdd : 'a list) (acc : 'a list list) =
-        match elementsToAdd with
-        | [] -> acc
-        | hd::tl ->
-            let newPerms = addElementToPreviousLists hd acc []
-            findAllPermutations tl newPerms
+[<RequireQualifiedAccess>]
+module Permutation =
 
-    and addElementToPreviousLists (element : 'a) lists listsWithElement =
-        match lists with
-        | hd::tl ->
-            let updated = addElementToAllPositionsInList element [] hd []
-            addElementToPreviousLists element tl (updated @ listsWithElement)
-        | [] -> listsWithElement
+    let permutations (input : 'a list) : ('a list list) =
+        let rec findAllPermutations (elementsToAdd : 'a list) (acc : 'a list list) =
+            match elementsToAdd with
+            | [] -> acc
+            | hd::tl ->
+                let newPerms = addElementToPreviousLists hd acc []
+                findAllPermutations tl newPerms
 
-    and addElementToAllPositionsInList (element : 'a)
-        frontOfList backOfList (newLists : 'a list list) =
-        match backOfList with
-        | [] ->
-            (frontOfList @ [element]) :: newLists
-        | hd::tl ->
-            let updated = frontOfList @ [element] @ [hd] @ tl
-            addElementToAllPositionsInList element (frontOfList @ [hd]) tl (updated::newLists)
+        and addElementToPreviousLists (element : 'a) lists listsWithElement =
+            match lists with
+            | hd::tl ->
+                let updated = addElementToAllPositionsInList element [] hd []
+                addElementToPreviousLists element tl (updated @ listsWithElement)
+            | [] -> listsWithElement
 
-    findAllPermutations input [[]]
+        and addElementToAllPositionsInList (element : 'a)
+            frontOfList backOfList (newLists : 'a list list) =
+            match backOfList with
+            | [] ->
+                (frontOfList @ [element]) :: newLists
+            | hd::tl ->
+                let updated = frontOfList @ [element] @ [hd] @ tl
+                addElementToAllPositionsInList element (frontOfList @ [hd]) tl (updated::newLists)
+
+        findAllPermutations input [[]]
