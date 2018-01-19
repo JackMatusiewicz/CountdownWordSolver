@@ -4,27 +4,19 @@ namespace Countdown
 module Permutation =
 
     let findAll (input : 'a list) : ('a list list) =
-        let rec findAllPermutations (elementsToAdd : 'a list) (acc : 'a list list) =
-            match elementsToAdd with
+        let rec addToLists (value : 'a) (head : 'a list) (tail : 'a list) (acc : 'a list list) =
+            let newList = head @ [value] @ tail
+            match tail with
+            | h::t ->
+                addToLists value (h::head) t (newList :: acc)
+            | _ -> newList::acc
+
+        let rec create (acc : 'a list list) (data : 'a list) : 'a list list =
+            match data with
+            | h::t ->
+                let newAcc = List.collect (fun d -> addToLists h [] d []) acc
+                create newAcc t
             | [] -> acc
-            | hd::tl ->
-                let newPerms = addElementToPreviousLists hd acc []
-                findAllPermutations tl newPerms
 
-        and addElementToPreviousLists (element : 'a) lists listsWithElement =
-            match lists with
-            | hd::tl ->
-                let updated = addElementToAllPositionsInList element [] hd []
-                addElementToPreviousLists element tl (updated @ listsWithElement)
-            | [] -> listsWithElement
-
-        and addElementToAllPositionsInList (element : 'a)
-            frontOfList backOfList (newLists : 'a list list) =
-            match backOfList with
-            | [] ->
-                (frontOfList @ [element]) :: newLists
-            | hd::tl ->
-                let updated = frontOfList @ [element] @ [hd] @ tl
-                addElementToAllPositionsInList element (frontOfList @ [hd]) tl (updated::newLists)
-
-        findAllPermutations input [[]]
+        create [[]] data
+        |> List.distinct
