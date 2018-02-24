@@ -12,6 +12,8 @@ type TrieNode =
 [<RequireQualifiedAccess>]
 module Trie =
 
+    let private flip f a b = f b a
+
     let head = (Node (Map.empty, NoWord))
 
     let addWord (word : string) (trie : TrieNode) =
@@ -36,7 +38,7 @@ module Trie =
         add trie chars
 
     let buildTrie (words : string seq) =
-        words |> Seq.fold (fun trie word -> addWord word trie) head
+        words |> Seq.fold (flip addWord) head
 
     let contains (word : string) (trie : TrieNode) =
         let chars = List.ofSeq word
